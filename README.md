@@ -9,4 +9,6 @@ by double clicking the location cell of the search results.
 !["GSC Peek Form"](photos/gscpeekform.png)
 
 ## Notes
+You must supply your own dump directory containing decompiled GSC scripts!
+
 Some toolbar buttons don't have functionality.
