@@ -7,3 +7,6 @@ by double clicking the location cell of the search results.
 ![Main Form](photos/mainform.png)
 ### GSC Peek Form
 !["GSC Peek Form"](photos/gscpeekform.png)
+
+## Notes
+Some toolbar buttons don't have functionality.
