@@ -37,11 +37,14 @@ namespace gsc_dump_search {
             }
 
             resultDataGrid.Rows.Clear(); // Clear previous search results 
+            searchProgressBar.Value = 0; // Reset progress bar 
 
             // Parse every file in the dump dir 
             List<DataGridViewRow> rows = new List<DataGridViewRow>();
 
-            IEnumerable<string> dumpFiles = Directory.EnumerateFiles(configuration.dump_path, "*.gsc", SearchOption.AllDirectories); // Get all files recursively 
+            string[] dumpFiles = Directory.GetFiles(configuration.dump_path, "*.gsc", SearchOption.AllDirectories); // Get all files recursively 
+            searchProgressBar.Maximum = dumpFiles.Length;
+
             foreach(string path in dumpFiles) { // Iterate over each file 
                 string[] fileContents = File.ReadAllLines(path); // Read contents of file 
                 for(int line_index = 0; line_index < fileContents.Length; line_index++) { // Iterate each line of contents 
@@ -57,6 +60,8 @@ namespace gsc_dump_search {
                         rows.Add(row); // Add row to rows array 
                     }
                 }
+
+                searchProgressBar.Value++;
             }
 
             if(rows.Count < 1) { // If no search results were found 
@@ -66,6 +71,7 @@ namespace gsc_dump_search {
             }
 
             resultDataGrid.Rows.AddRange(rows.ToArray()); // Add results to data grid 
+            searchProgressBar.Value = 0; // Reset progress bar 
         }
 
         private void ResultDataGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {

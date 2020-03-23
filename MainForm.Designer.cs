@@ -39,6 +39,7 @@
             this.TextColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LocationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LineColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.searchProgressBar = new System.Windows.Forms.ProgressBar();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -94,26 +95,27 @@
             // changeDumpDirToolStripMenuItem
             // 
             this.changeDumpDirToolStripMenuItem.Name = "changeDumpDirToolStripMenuItem";
-            this.changeDumpDirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.changeDumpDirToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.changeDumpDirToolStripMenuItem.Text = "Change Dump Dir.";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.searchProgressBar);
             this.groupBox1.Controls.Add(this.searchButton);
             this.groupBox1.Controls.Add(this.searchTextBox);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 25);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(800, 71);
+            this.groupBox1.Size = new System.Drawing.Size(800, 85);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search";
             // 
             // searchButton
             // 
-            this.searchButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.searchButton.Location = new System.Drawing.Point(3, 45);
+            this.searchButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.searchButton.Location = new System.Drawing.Point(3, 36);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(794, 23);
             this.searchButton.TabIndex = 4;
@@ -123,7 +125,7 @@
             // 
             // searchTextBox
             // 
-            this.searchTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.searchTextBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.searchTextBox.Location = new System.Drawing.Point(3, 16);
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.Size = new System.Drawing.Size(794, 20);
@@ -143,9 +145,9 @@
             // 
             this.groupBox2.Controls.Add(this.resultDataGrid);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 96);
+            this.groupBox2.Location = new System.Drawing.Point(0, 110);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(800, 354);
+            this.groupBox2.Size = new System.Drawing.Size(800, 340);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Results";
@@ -166,7 +168,7 @@
             this.resultDataGrid.ShowCellErrors = false;
             this.resultDataGrid.ShowCellToolTips = false;
             this.resultDataGrid.ShowRowErrors = false;
-            this.resultDataGrid.Size = new System.Drawing.Size(794, 335);
+            this.resultDataGrid.Size = new System.Drawing.Size(794, 321);
             this.resultDataGrid.TabIndex = 0;
             this.resultDataGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ResultDataGrid_CellDoubleClick);
             // 
@@ -189,6 +191,14 @@
             this.LineColumn.HeaderText = "Line";
             this.LineColumn.Name = "LineColumn";
             this.LineColumn.ReadOnly = true;
+            // 
+            // searchProgressBar
+            // 
+            this.searchProgressBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.searchProgressBar.Location = new System.Drawing.Point(3, 59);
+            this.searchProgressBar.Name = "searchProgressBar";
+            this.searchProgressBar.Size = new System.Drawing.Size(794, 23);
+            this.searchProgressBar.TabIndex = 5;
             // 
             // MainForm
             // 
@@ -229,6 +239,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TextColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn LocationColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn LineColumn;
+        private System.Windows.Forms.ProgressBar searchProgressBar;
     }
 }
 
