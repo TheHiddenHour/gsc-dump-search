@@ -26,6 +26,11 @@ namespace gsc_dump_search {
         }
 
         private void SearchButton_Click(object sender, EventArgs e) {
+            if(!Directory.Exists(configuration.dump_path)) { // Check for dump directory 
+                MessageBox.Show("Dump directory does not exist", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                return;
+            }
+
             if(string.IsNullOrWhiteSpace(searchTextBox.Text)) { // Check for blank search text 
                 MessageBox.Show("Search text field is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
