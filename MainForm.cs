@@ -86,5 +86,20 @@ namespace gsc_dump_search {
             GSCPeekForm peekForm = new GSCPeekForm(scriptContents, resultLine, resultPath);
             peekForm.Show();
         }
+
+        private void ChangeDumpDirToolStripMenuItem_Click(object sender, EventArgs e) {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            if(dialog.ShowDialog() == DialogResult.OK) {
+                configuration.dump_path = dialog.SelectedPath;
+                string _config = JsonConvert.SerializeObject(configuration, Formatting.Indented);
+                File.WriteAllText("config.json", _config);
+                MessageBox.Show("Dump directory changed", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            }
+            dialog.Dispose();
+        }
+
+        private void ExportResulsToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
     }
 }

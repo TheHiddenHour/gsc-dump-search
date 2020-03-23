@@ -25,12 +25,12 @@
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripFileButton = new System.Windows.Forms.ToolStripDropDownButton();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveResultsAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripDropSettingsButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.fileToolStripButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.exportResulsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripDropButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.changeDumpDirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.searchProgressBar = new System.Windows.Forms.ProgressBar();
             this.searchButton = new System.Windows.Forms.Button();
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,7 +39,6 @@
             this.TextColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LocationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LineColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.searchProgressBar = new System.Windows.Forms.ProgressBar();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -49,54 +48,49 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripFileButton,
-            this.toolStripDropSettingsButton});
+            this.fileToolStripButton,
+            this.settingsToolStripDropButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripFileButton
+            // fileToolStripButton
             // 
-            this.toolStripFileButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripFileButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem,
-            this.saveResultsAsToolStripMenuItem});
-            this.toolStripFileButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripFileButton.Image")));
-            this.toolStripFileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripFileButton.Name = "toolStripFileButton";
-            this.toolStripFileButton.Size = new System.Drawing.Size(38, 22);
-            this.toolStripFileButton.Text = "File";
+            this.fileToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.fileToolStripButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportResulsToolStripMenuItem});
+            this.fileToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("fileToolStripButton.Image")));
+            this.fileToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fileToolStripButton.Name = "fileToolStripButton";
+            this.fileToolStripButton.Size = new System.Drawing.Size(38, 22);
+            this.fileToolStripButton.Text = "File";
             // 
-            // saveToolStripMenuItem
+            // exportResulsToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.saveToolStripMenuItem.Text = "Save Results";
+            this.exportResulsToolStripMenuItem.Name = "exportResulsToolStripMenuItem";
+            this.exportResulsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportResulsToolStripMenuItem.Text = "Export Results";
+            this.exportResulsToolStripMenuItem.Click += new System.EventHandler(this.ExportResulsToolStripMenuItem_Click);
             // 
-            // saveResultsAsToolStripMenuItem
+            // settingsToolStripDropButton
             // 
-            this.saveResultsAsToolStripMenuItem.Name = "saveResultsAsToolStripMenuItem";
-            this.saveResultsAsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.saveResultsAsToolStripMenuItem.Text = "Save Results As...";
-            // 
-            // toolStripDropSettingsButton
-            // 
-            this.toolStripDropSettingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropSettingsButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingsToolStripDropButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.settingsToolStripDropButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.changeDumpDirToolStripMenuItem});
-            this.toolStripDropSettingsButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropSettingsButton.Image")));
-            this.toolStripDropSettingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropSettingsButton.Name = "toolStripDropSettingsButton";
-            this.toolStripDropSettingsButton.Size = new System.Drawing.Size(62, 22);
-            this.toolStripDropSettingsButton.Text = "Settings";
+            this.settingsToolStripDropButton.Image = ((System.Drawing.Image)(resources.GetObject("settingsToolStripDropButton.Image")));
+            this.settingsToolStripDropButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.settingsToolStripDropButton.Name = "settingsToolStripDropButton";
+            this.settingsToolStripDropButton.Size = new System.Drawing.Size(62, 22);
+            this.settingsToolStripDropButton.Text = "Settings";
             // 
             // changeDumpDirToolStripMenuItem
             // 
             this.changeDumpDirToolStripMenuItem.Name = "changeDumpDirToolStripMenuItem";
-            this.changeDumpDirToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.changeDumpDirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.changeDumpDirToolStripMenuItem.Text = "Change Dump Dir.";
+            this.changeDumpDirToolStripMenuItem.Click += new System.EventHandler(this.ChangeDumpDirToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
@@ -111,6 +105,14 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search";
+            // 
+            // searchProgressBar
+            // 
+            this.searchProgressBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.searchProgressBar.Location = new System.Drawing.Point(3, 59);
+            this.searchProgressBar.Name = "searchProgressBar";
+            this.searchProgressBar.Size = new System.Drawing.Size(794, 23);
+            this.searchProgressBar.TabIndex = 5;
             // 
             // searchButton
             // 
@@ -192,14 +194,6 @@
             this.LineColumn.Name = "LineColumn";
             this.LineColumn.ReadOnly = true;
             // 
-            // searchProgressBar
-            // 
-            this.searchProgressBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.searchProgressBar.Location = new System.Drawing.Point(3, 59);
-            this.searchProgressBar.Name = "searchProgressBar";
-            this.searchProgressBar.Size = new System.Drawing.Size(794, 23);
-            this.searchProgressBar.TabIndex = 5;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -225,15 +219,14 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripFileButton;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveResultsAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton fileToolStripButton;
+        private System.Windows.Forms.ToolStripMenuItem exportResulsToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropSettingsButton;
+        private System.Windows.Forms.ToolStripDropDownButton settingsToolStripDropButton;
         private System.Windows.Forms.ToolStripMenuItem changeDumpDirToolStripMenuItem;
         private System.Windows.Forms.DataGridView resultDataGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn TextColumn;
