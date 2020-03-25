@@ -107,62 +107,57 @@ namespace gsc_dump_search {
         }
 
         private void ExportResulsToolStripMenuItem_Click(object sender, EventArgs e) {
-            // Create CSV writer stream 
-            using(StreamWriter writer = new StreamWriter("export.csv"))
-            using(CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture)) {
-                // Get header text 
-                int headerCount = resultDataGrid.Columns.Count;
-                int rowCount = resultDataGrid.Rows.Count;
-
-                // Write header fields to CSV stream 
-                for(int i = 0; i < headerCount; i++) {
-                    csv.WriteField(resultDataGrid.Columns[i].HeaderText);
-                }
-                csv.NextRecord(); // End header record 
-
-                foreach(DataGridViewRow row in resultDataGrid.Rows) { // Iterate over each row in results 
-                    int cellCount = row.Cells.Count; // Get amount of cells in current row 
-                    object[] rowValues = new object[cellCount]; // Get values of cells in current row 
-
-                    for(int cellIndex = 0; cellIndex < cellCount; cellIndex++) {
-                        rowValues[cellIndex] = row.Cells[cellIndex].Value;
-                    }
-
-                    // Create record from row 
-                    SearchResult record = new SearchResult() {
-                        Text = (string)rowValues[0],
-                        Path = (string)rowValues[1],
-                        Line = (int)rowValues[2]
-                    };
-
-                    csv.WriteRecord(record); // Write record to CSV stream 
-                    csv.NextRecord();
-                }
+            if(resultDataGrid.Rows.Count < 1) {
+                MessageBox.Show("No results to dump", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                return;
             }
-            /*StreamWriter writer = new StreamWriter("export.csv");
-            CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
 
-            foreach(DataGridViewRow row in resultDataGrid.Rows) { // Iterate over each row in results 
-                // Get values in row 
-                int cellCount = row.Cells.Count;
-                object[] rowValues = new object[cellCount];
+            try {
+                searchProgressBar.Maximum = resultDataGrid.RowCount; // Set progress bar max value 
 
-                for(int cellIndex = 0; cellIndex < cellCount; cellIndex++) {
-                    rowValues[cellIndex] = row.Cells[cellIndex].Value;
+                // Create CSV writer stream 
+                using(StreamWriter writer = new StreamWriter("export.csv"))
+                using(CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture)) {
+                    // Get header text 
+                    int headerCount = resultDataGrid.Columns.Count;
+                    int rowCount = resultDataGrid.RowCount;
+
+                    // Write header fields to CSV stream 
+                    for(int i = 0; i < headerCount; i++) {
+                        csv.WriteField(resultDataGrid.Columns[i].HeaderText);
+                    }
+                    csv.NextRecord(); // End header record 
+
+                    foreach(DataGridViewRow row in resultDataGrid.Rows) { // Iterate over each row in results 
+                        int cellCount = row.Cells.Count; // Get amount of cells in current row 
+                        object[] rowValues = new object[cellCount]; // Get values of cells in current row 
+
+                        for(int cellIndex = 0; cellIndex < cellCount; cellIndex++) {
+                            rowValues[cellIndex] = row.Cells[cellIndex].Value;
+                        }
+
+                        // Create record from row 
+                        SearchResult record = new SearchResult() {
+                            Text = (string)rowValues[0],
+                            Path = (string)rowValues[1],
+                            Line = (int)rowValues[2]
+                        };
+
+                        csv.WriteRecord(record); // Write record to CSV stream 
+                        csv.NextRecord();
+
+                        searchProgressBar.Value++;
+                    }
                 }
 
-                // Create record from row 
-                SearchResult record = new SearchResult() {
-                    Text = (string)rowValues[0],
-                    Path = (string)rowValues[1],
-                    Line = (int)rowValues[2]
-                };
+                searchProgressBar.Value = 0;
 
-                csv.WriteRecord(record); // Write record to CSV stream 
-
-                csv.Flush(); // Flush CSV stream 
-                writer.Flush(); // Flush writer stream to write the CSV to file 
-            }*/
+                MessageBox.Show("Results saved to export.csv", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            }
+            catch(Exception ex) {
+                MessageBox.Show("There was an error exporting results.\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                return;
+            }
         }
     }
 }

@@ -71,8 +71,8 @@
             // exportResulsToolStripMenuItem
             // 
             this.exportResulsToolStripMenuItem.Name = "exportResulsToolStripMenuItem";
-            this.exportResulsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.exportResulsToolStripMenuItem.Text = "Export Results";
+            this.exportResulsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportResulsToolStripMenuItem.Text = "Export to CSV";
             this.exportResulsToolStripMenuItem.Click += new System.EventHandler(this.ExportResulsToolStripMenuItem_Click);
             // 
             // settingsToolStripDropButton
@@ -89,7 +89,7 @@
             // changeDumpDirToolStripMenuItem
             // 
             this.changeDumpDirToolStripMenuItem.Name = "changeDumpDirToolStripMenuItem";
-            this.changeDumpDirToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.changeDumpDirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.changeDumpDirToolStripMenuItem.Text = "Change Dump Dir.";
             this.changeDumpDirToolStripMenuItem.Click += new System.EventHandler(this.ChangeDumpDirToolStripMenuItem_Click);
             // 
