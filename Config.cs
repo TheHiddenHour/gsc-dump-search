@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace gsc_dump_search {
     class Config {
-        public string dump_path;
+        public string DumpPath;
 
         public Config(string dumpPath) {
-            dump_path = dumpPath;
+            DumpPath = dumpPath;
         }
     }
 }

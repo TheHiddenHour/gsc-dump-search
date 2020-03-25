@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using CsvHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
@@ -15,18 +17,21 @@ namespace gsc_dump_search {
         private void MainForm_Load(object sender, EventArgs e) {
             try { // Try to load config.json 
                 string _config = File.ReadAllText("config.json"); // Read config text 
+
                 configuration = JsonConvert.DeserializeObject<Config>(_config); // Deserialize config text 
             }
             catch(Exception) { // Failed to load config.json
                 Config _config = new Config("gsc-dump"); // Create new config 
                 string _serializedConfig = JsonConvert.SerializeObject(_config, Formatting.Indented); // Serialize config 
+
                 File.WriteAllText("config.json", _serializedConfig); // Write config to file 
+
                 configuration = _config;
             }
         }
 
         private void SearchButton_Click(object sender, EventArgs e) {
-            if(!Directory.Exists(configuration.dump_path)) { // Check for dump directory 
+            if(!Directory.Exists(configuration.DumpPath)) { // Check for dump directory 
                 MessageBox.Show("Dump directory does not exist", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
             }
@@ -39,17 +44,20 @@ namespace gsc_dump_search {
             // Parse every file in the dump dir 
             List<DataGridViewRow> rows = new List<DataGridViewRow>();
             StringComparison searchCulture = (caseInsensitiveCheckBox.Checked) ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
-            string[] dumpFiles = Directory.GetFiles(configuration.dump_path, "*.gsc", SearchOption.AllDirectories); // Get all files recursively 
+            string[] dumpFiles = Directory.GetFiles(configuration.DumpPath, "*.gsc", SearchOption.AllDirectories); // Get all files recursively 
+
             searchProgressBar.Maximum = dumpFiles.Length;
 
             foreach(string path in dumpFiles) { // Iterate over each file 
                 string[] fileContents = File.ReadAllLines(path); // Read contents of file 
+
                 for(int line_index = 0; line_index < fileContents.Length; line_index++) { // Iterate each line of contents 
                     string line = fileContents[line_index]; // Current line being iterated over 
 
                     if(StringExtensions.Contains(ref line, searchTextBox.Text, searchCulture)) {
                         // Create row and populate information 
                         DataGridViewRow row = new DataGridViewRow();
+
                         row.CreateCells(resultDataGrid);
                         row.Cells[0].Value = line.Trim(); // Result text 
                         row.Cells[1].Value = path; // Result path 
@@ -89,8 +97,9 @@ namespace gsc_dump_search {
         private void ChangeDumpDirToolStripMenuItem_Click(object sender, EventArgs e) {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             if(dialog.ShowDialog() == DialogResult.OK) {
-                configuration.dump_path = dialog.SelectedPath;
+                configuration.DumpPath = dialog.SelectedPath;
                 string _config = JsonConvert.SerializeObject(configuration, Formatting.Indented);
+
                 File.WriteAllText("config.json", _config);
                 MessageBox.Show("Dump directory changed", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
@@ -98,7 +107,62 @@ namespace gsc_dump_search {
         }
 
         private void ExportResulsToolStripMenuItem_Click(object sender, EventArgs e) {
+            // Create CSV writer stream 
+            using(StreamWriter writer = new StreamWriter("export.csv"))
+            using(CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture)) {
+                // Get header text 
+                int headerCount = resultDataGrid.Columns.Count;
+                int rowCount = resultDataGrid.Rows.Count;
 
+                // Write header fields to CSV stream 
+                for(int i = 0; i < headerCount; i++) {
+                    csv.WriteField(resultDataGrid.Columns[i].HeaderText);
+                }
+                csv.NextRecord(); // End header record 
+
+                foreach(DataGridViewRow row in resultDataGrid.Rows) { // Iterate over each row in results 
+                    int cellCount = row.Cells.Count; // Get amount of cells in current row 
+                    object[] rowValues = new object[cellCount]; // Get values of cells in current row 
+
+                    for(int cellIndex = 0; cellIndex < cellCount; cellIndex++) {
+                        rowValues[cellIndex] = row.Cells[cellIndex].Value;
+                    }
+
+                    // Create record from row 
+                    SearchResult record = new SearchResult() {
+                        Text = (string)rowValues[0],
+                        Path = (string)rowValues[1],
+                        Line = (int)rowValues[2]
+                    };
+
+                    csv.WriteRecord(record); // Write record to CSV stream 
+                    csv.NextRecord();
+                }
+            }
+            /*StreamWriter writer = new StreamWriter("export.csv");
+            CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+
+            foreach(DataGridViewRow row in resultDataGrid.Rows) { // Iterate over each row in results 
+                // Get values in row 
+                int cellCount = row.Cells.Count;
+                object[] rowValues = new object[cellCount];
+
+                for(int cellIndex = 0; cellIndex < cellCount; cellIndex++) {
+                    rowValues[cellIndex] = row.Cells[cellIndex].Value;
+                }
+
+                // Create record from row 
+                SearchResult record = new SearchResult() {
+                    Text = (string)rowValues[0],
+                    Path = (string)rowValues[1],
+                    Line = (int)rowValues[2]
+                };
+
+                csv.WriteRecord(record); // Write record to CSV stream 
+
+                csv.Flush(); // Flush CSV stream 
+                writer.Flush(); // Flush writer stream to write the CSV to file 
+            }*/
         }
     }
 }
