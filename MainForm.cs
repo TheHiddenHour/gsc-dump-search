@@ -36,12 +36,9 @@ namespace gsc_dump_search {
                 return;
             }
 
-            resultDataGrid.Rows.Clear(); // Clear previous search results 
-            searchProgressBar.Value = 0; // Reset progress bar 
-
             // Parse every file in the dump dir 
             List<DataGridViewRow> rows = new List<DataGridViewRow>();
-
+            StringComparison searchCulture = (caseInsensitiveCheckBox.Checked) ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
             string[] dumpFiles = Directory.GetFiles(configuration.dump_path, "*.gsc", SearchOption.AllDirectories); // Get all files recursively 
             searchProgressBar.Maximum = dumpFiles.Length;
 
@@ -49,7 +46,8 @@ namespace gsc_dump_search {
                 string[] fileContents = File.ReadAllLines(path); // Read contents of file 
                 for(int line_index = 0; line_index < fileContents.Length; line_index++) { // Iterate each line of contents 
                     string line = fileContents[line_index]; // Current line being iterated over 
-                    if(line.Contains(searchTextBox.Text)) {
+
+                    if(StringExtensions.Contains(ref line, searchTextBox.Text, searchCulture)) {
                         // Create row and populate information 
                         DataGridViewRow row = new DataGridViewRow();
                         row.CreateCells(resultDataGrid);
@@ -64,14 +62,15 @@ namespace gsc_dump_search {
                 searchProgressBar.Value++;
             }
 
+            resultDataGrid.Rows.Clear(); // Clear previous search results 
+            searchProgressBar.Value = 0; // Reset progress bar 
+
             if(rows.Count < 1) { // If no search results were found 
                 MessageBox.Show("No search results found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                resultDataGrid.Rows.Clear();
                 return;
             }
 
             resultDataGrid.Rows.AddRange(rows.ToArray()); // Add results to data grid 
-            searchProgressBar.Value = 0; // Reset progress bar 
         }
 
         private void ResultDataGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
